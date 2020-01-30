@@ -1,0 +1,24 @@
+body {
+  color: #1E1E1E;
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+
+  h1, h2, h3, h4, h5, h6 {
+    color:  #a90c21;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+
+  }
+
+  a {
+    font-weight: 700;
+      color: #1E1E1E;
+    &:hover,
+    &.router-link-active {
+      color: #a90c21;
+    }
+  }
+}
+
+// #E8112D;#a90c21;
