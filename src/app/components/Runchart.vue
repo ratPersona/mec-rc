@@ -1,5 +1,5 @@
 <style scoped lang="scss">
-  @import '../../scss/runchart.scss';
+  @import '../scss/runchart.scss';
 </style>
 
 <template>

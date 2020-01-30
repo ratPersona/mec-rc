@@ -6,7 +6,7 @@
 </template>
 <script>
   //import Runchart from 'Runchart';
-  import Runchart from '../shared/components/Runchart.vue'
+  import Runchart from '../components/Runchart.vue'
 
   export default {
     components: {
