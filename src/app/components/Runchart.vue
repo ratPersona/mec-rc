@@ -1,141 +1,150 @@
 <style scoped lang="scss">
   @import '../scss/runchart.scss';
-
-
-  h1,h2,h3 {
-    color: #fff;
-  }
-  .carousel-container {
-    width: 90%;
-    //max-width: 80%;
-    margin: 30px auto;
-  }
-
-  .VueCarousel-inner {
-    flex-basis: 100% !important;
-  }
-
-  .slide {
-    align-items: center;
-    background-color: #666;
-    color: #999;
-    display: flex;
-    font-size: 1.5rem;
-    justify-content: center;
-    min-height: 10rem;
-  }
 </style>
 
 <template>
   <main class="runchart-main-view">
-    <section class="runchart-details">
+    <article class="runchart-details">
+      <div class="details-top flex-container">
+        <div class="flex"><h1>Run Chart #:</h1> <span>R163830</span></div>
+        <div class="flex"><h2>Run Chart Revision:</h2> <span>1</span></div>
+      </div>
+      <div class="details-middle">
+        <ul class="flex-container">
+          <li class="flex" v-for="value in runchartData" :key="value">
+            {{ runchartData.value }}
+          </li>
+        </ul>
+      </div>
+      <div class="details-bottom"></div>
+    </article>
 
-    </section>
-
-  <section class="runchart-buttons">
-    <section class="button-list">
-      <agile :as-nav-for="[$refs.slides]" :options="options1" :ref="buttons">
-        <!-- <div class="runchart-button" v-for="button in buttons" :key="button">
-          {{ button.title }}
-        </div> -->
-        <div class="runchart-button">
-          <h3>1</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>2</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>3</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>4</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>5</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>6</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>7</h3>
-        </div>
-        <div class="runchart-button">
-          <h3>8</h3>
-        </div>
-      </agile>
-    </section>
-  </section>
-
-  <section class="carousel-container">
-    <agile :options="options2" :ref="slides">
-      <!-- <div class="slide" v-for="slide in slides" :key="slide">
-        {{ slide.title }}
-      </div> -->
-      <div class="slide">
-        <h3>slide 1</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 2</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 3</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 4</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 5</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 6</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 7</h3>
-      </div>
-      <div class="slide">
-        <h3>slide 8</h3>
-      </div>
-    </agile>
-  </section>
-
-    <!-- <section class="runchart-buttons">
+    <section class="runchart-buttons">
       <section class="button-list">
-        <carousel  perPage="4" :paginationEnabled="false" :navigationEnabled="true" :scrollPerPage="false">
-          <slide class="runchart-button" v-for="button in buttons" :key="button">
-            {{ button.title }}
-          </slide>
-        </carousel>
+        <hooper group="group1" :settings="hooperSettings">
+          <hooper-navigation slot="hooper-addons"></hooper-navigation>
+
+          <slide class="runchart-button">1</slide>
+          <slide class="runchart-button">2</slide>
+          <slide class="runchart-button">3</slide>
+          <slide class="runchart-button">4</slide>
+          <slide class="runchart-button">5</slide>
+          <slide class="runchart-button">6</slide>
+          <slide class="runchart-button">7</slide>
+          <slide class="runchart-button">8</slide>
+
+          <hooper-progress slot="hooper-addons"></hooper-progress>
+        </hooper>
       </section>
     </section>
+
     <section class="carousel-container">
-      <carousel perPage="1" :paginationEnabled="false" :scrollPerPage="false">
-        <slide class="example-slide">Test</slide>
-        <slide class="example-slide">Slide 2</slide>
-        <slide class="example-slide">Slide 3</slide>
-      </carousel>
-    </section> -->
+      <hooper group="group1" :settings="hooperSettings2">
+        <slide class="slide">
+          <div class="left attr-details">
+            left 1
+          </div>
+          <div class="right attr-interaction">
+            right 1
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 2
+          </div>
+          <div class="right attr-interaction">
+            right 2
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 3
+          </div>
+          <div class="right attr-interaction">
+            right 3
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 4
+          </div>
+          <div class="right attr-interaction">
+            right 4
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 5
+          </div>
+          <div class="right attr-interaction">
+            right 5
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 6
+          </div>
+          <div class="right attr-interaction">
+            right 6
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 7
+          </div>
+          <div class="right attr-interaction">
+            right 7
+          </div>
+        </slide>
+        <slide class="slide">
+          <div class="left attr-details">
+            left 8
+          </div>
+          <div class="right attr-interaction">
+            right 8
+          </div>
+        </slide>
+        <hooper-pagination slot="hooper-addons"></hooper-pagination>
+      </hooper>
+    </section>
   </main>
 </template>
 
 
 <script>
+//TODO: HOOPER WINS! NOTES - Vue Carousel works but no native "asNavFor", Vue Agile is deprecated, Vue Slick doesn't work properly, Vue Slick Carousel is...broken
+
+import { Hooper, Slide, Navigation as HooperNavigation, Progress as HooperProgress, Pagination as HooperPagination } from 'hooper';
+import 'hooper/dist/hooper.css';
+
   export default {
     name: 'Runchart',
-    props: {
-      msg: String
+    components: {
+      Hooper,
+      Slide,
+      HooperProgress,
+      HooperPagination,
+      HooperNavigation
     },
      data: function () {
        return {
-         options1: {
-           dots: false,
-           slidesToShow: 4,
-         },
-
-         options2: {
-           dots: false,
-           navButtons: false
-         },
-
+         hooperSettings: {
+            itemsToShow: 4,
+            centerMode: false
+          },
+          hooperSettings2: {
+             itemsToShow: 1,
+             centerMode: true
+           },
+           runchartData: [
+             { title: "<h3>Drawn By</h3>", value: "<span>Sam Nelson</span>"},
+             { title: "Date", value: "09/24/2020"},
+             { title: "W/CTR", value: "1234"},
+             { title: "Alt Route", value: "2"},
+             { title: "Dept #", value: "4"},
+             { title: "Oper #", value: "5"},
+             { title: "Part #", value: "123456789 - Floor Cover Plate"},
+           ],
          buttons: [
            { title: '1' },
            { title: '2' },
@@ -159,4 +168,32 @@
        }
     }
   }
+
+/*
+  settings: [
+    {
+      "dots": false,
+      // "dotsClass": "slick-dots custom-dot-class",
+      // "edgeFriction": 0.35,
+      "infinite": true,
+      "speed": 500,
+      "slidesToShow": 1,
+      "slidesToScroll": 1,
+      // "touchThreshold": 5,
+      // "adaptiveHeight": true
+    }
+  ],
+  settings2: [
+    {
+      "dots": true,
+      "dotsClass": "slick-dots custom-dot-class",
+      "infinite": true,
+      "speed": 500,
+      "slidesToShow": 1,
+      "slidesToScroll": 1,
+      "touchThreshold": 5,
+      "adaptiveHeight": true
+    }
+  ],
+  */
 </script>

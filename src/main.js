@@ -1,21 +1,31 @@
 import Vue from 'vue'
+//import VueCarousel from 'vue-carousel'
+import Hooper from 'hooper';
+// import VueAgile from 'vue-agile'
+//import VueSlickCarousel from 'vue-slick-carousel'
+// import Slick from 'vue-slick';
 
-import VueCarousel from 'vue-carousel'
-import VueAgile from 'vue-agile'
 
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.use(VueAgile);
-Vue.use(VueCarousel);
+// Vue.use(VueAgile);
+ // Vue.use(VueCarousel);
+ Vue.use(Hooper);
+//Vue.use(VueSlickCarousel);
+
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  VueCarousel,
-  VueAgile,
+  Hooper,
+  // Slide,
+  // VueCarousel,
+  // VueAgile,
+  //VueSlickCarousel,
+  // Slick,
   store,
   render: h => h(App)
 }).$mount('#app')

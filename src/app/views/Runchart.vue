@@ -1,6 +1,5 @@
 <template>
   <div class="runchart">
-    <h1>Runchart View</h1>
     <Runchart />
   </div>
 </template>

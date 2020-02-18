@@ -1,34 +1,81 @@
 .runchart {
   .runchart-main-view {
+    padding: 30px;
+    //info area on top - collapsable
     .runchart-details {
+      width: 90%;
+      padding: 0 15px;
+      margin: 0 auto 30px;
+      border: 1px solid #707070;
 
+      .details-top {
+        h1, h2, span {
+          display: inline-block;
+        }
+      }
+
+      > div {
+        &.flex-container {
+          .flex {
+            flex: 0 0 50%;
+            text-align: left;
+          }
+        }
+      }
     }
 
+    //hooper slider - navigation for runchart features
     .runchart-buttons {
       position: relative;
       margin: auto;
       width: 90%;
 
       .button-list {
-
         .runchart-button {
-          background-color: #1E1E1E;
-          color: #fff;
-          //flex: 0 0 20%;
+          //structure
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          //general styling
+          background-color: #dedede;
+          color: #1E1E1E;
           padding: 20px 0;
-          //margin: 0 20px;
+          height: 75px;
+          transition: background-color 300ms ease, color 300ms ease;
+
+          //hooper stuff
+          &.is-current {
+            background-color: #1E1E1E;
+            color: #dedede;
+            transition: background-color 300ms ease, color 300ms ease;
+
+          }
         }
       }
     }
 
-    .runchart-slide {
-      display: flex;
+    //hooper slider - informational portion of runchart features
+    .carousel-container {
+      width: 90%;
+      margin: 30px auto;
+      .slide {
+        //structure
+        display: flex;
+        align-items: center;
 
-      .left {
-        flex: 0 0 20%;
-      }
-      .right {
-        flex: 0 0 70%;
+        //general styling
+        background-color: #666;
+        color: #999;
+        font-size: 1.5rem;
+
+        .left {
+          flex: 0 0 20%;
+        }
+        .right {
+          flex: 0 0 70%;
+        }
+
       }
     }
   }
