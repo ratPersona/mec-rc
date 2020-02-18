@@ -5,18 +5,31 @@
 <template>
   <main class="runchart-main-view">
     <article class="runchart-details">
+      <button role="button" class="toggle-me-btn" @click="toggleMe()">
+        <svg v-if="toggle" class="icon open"><use href="#close"></use></svg>
+        <svg class="icon closed" v-else><use href="#open"></use></svg>
+      </button>
       <div class="details-top flex-container">
         <div class="flex"><h1>Run Chart #:</h1> <span>R163830</span></div>
         <div class="flex"><h2>Run Chart Revision:</h2> <span>1</span></div>
       </div>
-      <div class="details-middle">
-        <ul class="flex-container">
-          <li class="flex" v-for="value in runchartData" :key="value">
-            {{ runchartData.value }}
-          </li>
-        </ul>
+      <div v-if="toggle">
+        <div class="details-middle border open">
+          <ul class="flex-container value-list">
+            <li class="flex" v-for="value in runchartData" :key="value">
+              <h3>{{ value.title }} :</h3> <span>{{ value.value }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="details-bottom flex-container border open">
+          <div class="flex"><h3>Job #:</h3> <span>12345</span></div>
+          <div class="flex"><h3>Date :</h3> <span>00/00/0000</span></div>
+          <div class="flex"><h3>Clock #:</h3> <span>123456</span></div>
+        </div>
       </div>
-      <div class="details-bottom"></div>
+      <div v-else>
+
+      </div>
     </article>
 
     <section class="runchart-buttons">
@@ -24,16 +37,16 @@
         <hooper group="group1" :settings="hooperSettings">
           <hooper-navigation slot="hooper-addons"></hooper-navigation>
 
-          <slide class="runchart-button">1</slide>
-          <slide class="runchart-button">2</slide>
-          <slide class="runchart-button">3</slide>
-          <slide class="runchart-button">4</slide>
-          <slide class="runchart-button">5</slide>
-          <slide class="runchart-button">6</slide>
-          <slide class="runchart-button">7</slide>
-          <slide class="runchart-button">8</slide>
+          <slide class="runchart-button"><div>1</div></slide>
+          <slide class="runchart-button"><div>2</div></slide>
+          <slide class="runchart-button"><div>3</div></slide>
+          <slide class="runchart-button"><div>4</div></slide>
+          <slide class="runchart-button"><div>5</div></slide>
+          <slide class="runchart-button"><div>6</div></slide>
+          <slide class="runchart-button"><div>7</div></slide>
+          <slide class="runchart-button"><div>8</div></slide>
 
-          <hooper-progress slot="hooper-addons"></hooper-progress>
+          <!-- <hooper-progress slot="hooper-addons"></hooper-progress> -->
         </hooper>
       </section>
     </section>
@@ -41,18 +54,30 @@
     <section class="carousel-container">
       <hooper group="group1" :settings="hooperSettings2">
         <slide class="slide">
-          <div class="left attr-details">
-            left 1
+          <div class="left feature-details">
+            <h2>Feature 1. Attribute 3</h2>
+            <div class="feature-detail border">
+              <h3>Location :</h3> <span>--</span>
+            </div>
+            <div class="feature-detail border">
+              <h3>Frequency :</h3> <span>100% - Log 1x per Shift</span>
+            </div>
+            <div class="feature-detail border">
+              <h3>Insp. Tool :</h3> <span>Visual</span>
+            </div>
           </div>
-          <div class="right attr-interaction">
-            right 1
+          <div class="right attr-info">
+            <div class="">
+              <h2>Pass/Fail</h2>
+              <input placeholder="Pass"><button>Add to Chart</button>
+            </div>
           </div>
         </slide>
         <slide class="slide">
           <div class="left attr-details">
             left 2
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 2
           </div>
         </slide>
@@ -60,7 +85,7 @@
           <div class="left attr-details">
             left 3
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 3
           </div>
         </slide>
@@ -68,7 +93,7 @@
           <div class="left attr-details">
             left 4
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 4
           </div>
         </slide>
@@ -76,7 +101,7 @@
           <div class="left attr-details">
             left 5
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 5
           </div>
         </slide>
@@ -84,7 +109,7 @@
           <div class="left attr-details">
             left 6
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 6
           </div>
         </slide>
@@ -92,7 +117,7 @@
           <div class="left attr-details">
             left 7
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 7
           </div>
         </slide>
@@ -100,7 +125,7 @@
           <div class="left attr-details">
             left 8
           </div>
-          <div class="right attr-interaction">
+          <div class="right attr-info">
             right 8
           </div>
         </slide>
@@ -113,21 +138,28 @@
 
 <script>
 //TODO: HOOPER WINS! NOTES - Vue Carousel works but no native "asNavFor", Vue Agile is deprecated, Vue Slick doesn't work properly, Vue Slick Carousel is...broken
-
-import { Hooper, Slide, Navigation as HooperNavigation, Progress as HooperProgress, Pagination as HooperPagination } from 'hooper';
 import 'hooper/dist/hooper.css';
+
+import {
+  Hooper,
+  Slide,
+  Navigation as HooperNavigation,
+  // Progress as HooperProgress,
+  Pagination as HooperPagination } from 'hooper';
 
   export default {
     name: 'Runchart',
     components: {
       Hooper,
       Slide,
-      HooperProgress,
+      // HooperProgress,
       HooperPagination,
-      HooperNavigation
+      HooperNavigation,
     },
      data: function () {
        return {
+         toggle: false,
+
          hooperSettings: {
             itemsToShow: 4,
             centerMode: false
@@ -137,7 +169,7 @@ import 'hooper/dist/hooper.css';
              centerMode: true
            },
            runchartData: [
-             { title: "<h3>Drawn By</h3>", value: "<span>Sam Nelson</span>"},
+             { title: "Drawn By", value: "Sam Nelson"},
              { title: "Date", value: "09/24/2020"},
              { title: "W/CTR", value: "1234"},
              { title: "Alt Route", value: "2"},
@@ -166,34 +198,13 @@ import 'hooper/dist/hooper.css';
            { title: 'Eight' }
          ],
        }
+    },
+    methods: {
+      toggleMe: function() {
+        //alert("toggled");
+        this.toggle = !this.toggle;
+        console.log(this.toggle)
+      }
     }
   }
-
-/*
-  settings: [
-    {
-      "dots": false,
-      // "dotsClass": "slick-dots custom-dot-class",
-      // "edgeFriction": 0.35,
-      "infinite": true,
-      "speed": 500,
-      "slidesToShow": 1,
-      "slidesToScroll": 1,
-      // "touchThreshold": 5,
-      // "adaptiveHeight": true
-    }
-  ],
-  settings2: [
-    {
-      "dots": true,
-      "dotsClass": "slick-dots custom-dot-class",
-      "infinite": true,
-      "speed": 500,
-      "slidesToShow": 1,
-      "slidesToScroll": 1,
-      "touchThreshold": 5,
-      "adaptiveHeight": true
-    }
-  ],
-  */
 </script>

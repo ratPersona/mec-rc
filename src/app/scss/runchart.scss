@@ -1,23 +1,74 @@
 .runchart {
+  //GENERAL
+  .border {
+    border-top: 1px solid #D42F44;
+  }
+
   .runchart-main-view {
-    padding: 30px;
+    padding: 30px 0;
     //info area on top - collapsable
     .runchart-details {
+      position: relative;
       width: 90%;
       padding: 0 15px;
       margin: 0 auto 30px;
-      border: 1px solid #707070;
+      background-color: #F1EEEE;
+      border: 1px solid #dedede;
 
-      .details-top {
-        h1, h2, span {
-          display: inline-block;
+      .toggle-me-btn {
+        position: absolute;
+        top: 12px;
+        right: 10px;
+        color: #1e1e1e;
+        background: transparent;
+        border: none;
+        padding: 10px;
+        .icon {
+          width: 15px;
+          height: 15px;
         }
       }
 
-      > div {
+      h1, h2, h3 {
+        font-size: 20px;
+        display: inline-block;
+      }
+
+      span {
+        font-size: 20px;
+        font-weight: 700;
+        display: inline-block;
+      }
+
+      .details-top {
         &.flex-container {
           .flex {
             flex: 0 0 50%;
+            text-align: left;
+          }
+        }
+      }
+      .details-middle {
+        .value-list {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+          &.flex-container {
+            justify-content: space-between;
+            align-items: center;
+            .flex {
+              //flex: 0 0 auto;
+              text-align: left;
+
+            }
+          }
+        }
+      }
+      .details-bottom {
+        &.flex-container {
+          justify-content: space-between;
+          .flex {
+            flex: 0 0 30%;
             text-align: left;
           }
         }
@@ -28,28 +79,48 @@
     .runchart-buttons {
       position: relative;
       margin: auto;
-      width: 90%;
+      width: 95%;
 
       .button-list {
-        .runchart-button {
-          //structure
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          //general styling
-          background-color: #dedede;
-          color: #1E1E1E;
-          padding: 20px 0;
+        height: 75px;
+        //hooper stuff
+        .hooper {
           height: 75px;
-          transition: background-color 300ms ease, color 300ms ease;
+          .hooper-list {
+            .hooper-track {
+            }
+            .hooper-navigation {
+//              width: 100%;
+            }
+          }
+        }
+
+        .runchart-button {
+          //height: 75px;
+          width: 100%;
+          div {
+            //structure
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            //general styling
+            margin: auto;
+            background-color: #dedede;
+            color: #1E1E1E;
+            padding: 20px 0;
+            width: 80%;
+            height: 75px;
+            transition: background-color 300ms ease, color 300ms ease;
+          }
 
           //hooper stuff
           &.is-current {
-            background-color: #1E1E1E;
-            color: #dedede;
-            transition: background-color 300ms ease, color 300ms ease;
-
+            div {
+              background-color: #1E1E1E;
+              color: #dedede;
+              transition: background-color 300ms ease, color 300ms ease;
+            }
           }
         }
       }
@@ -57,25 +128,56 @@
 
     //hooper slider - informational portion of runchart features
     .carousel-container {
-      width: 90%;
+      width: 95%;
       margin: 30px auto;
+      //hooper stuff
+      .hooper {
+        height: auto;
+      }
+
       .slide {
         //structure
         display: flex;
+        justify-content: space-around;
         align-items: center;
-
         //general styling
-        background-color: #666;
         color: #999;
         font-size: 1.5rem;
 
+        .left, .right {
+          border: 1px solid #dedede;
+          height: 100%;
+          min-height: 200px;
+          h2, span {
+            color: #1E1E1E;
+          }
+        }
+
         .left {
+          padding: 15px;
+          text-align: left;
           flex: 0 0 20%;
+          &.feature-details {
+            h2 {
+              font-size: 18px;
+            }
+            .feature-detail {
+              h3, span {
+                display: inline-block;
+              }
+              h3 {
+                font-size: 18px;
+              }
+              span {
+                color: #1E1E1E;
+                font-size: 18px;
+              }
+            }
+          }
         }
         .right {
           flex: 0 0 70%;
         }
-
       }
     }
   }
