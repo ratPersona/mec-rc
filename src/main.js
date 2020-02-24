@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import Moment from 'vue-moment'
 //import VueCarousel from 'vue-carousel'
 import Hooper from 'hooper';
 import VueMatchHeights from 'vue-match-heights';
@@ -15,6 +16,7 @@ import store from './store'
 
 // Vue.use(VueAgile);
  // Vue.use(VueCarousel);
+ Vue.use(Moment);
  Vue.use(Hooper);
  Vue.use(VueMatchHeights);
 
@@ -28,6 +30,7 @@ new Vue({
   Hooper,
   VueMatchHeights,
   axios,
+  Moment,
   // Slide,
   // VueCarousel,
   // VueAgile,

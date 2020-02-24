@@ -11,25 +11,25 @@
       </button>
       <!-- v-for="detail of job" :key="detail" -->
       <div class="details-top flex-container">
-        <div class="flex"><h1>Run Chart #:</h1> <span>{{ job.runchartNumber }}</span></div>
-        <div class="flex"><h2>Run Chart Revision:</h2> <span>{{}}</span></div>
+        <div class="flex"><h1>Run Chart #:</h1> <span>{{ jobSpec.runchartNumber }}</span></div>
+        <div class="flex"><h2>Run Chart Revision:</h2> <span>{{ jobSpec.runchartRevision }}</span></div>
       </div>
       <div v-if="toggle">
         <div class="details-middle border open">
           <ul class="flex-container value-list">
-            <!-- <li class="flex" v-for="value in runchartData" :key="value">
-              <h3>{{ value.title }} :</h3> <span>{{ value.value }}</span>
-            </li> -->
-            <li class="flex">
-              <!-- <h3>{{ value.title }} :</h3> <span>{{ value.value }}</span> -->
-              <!-- <h3>{{ detail.title }} :</h3> <span></span> -->
-            </li>
+            <li class="flex"><h3>Drawn By :</h3> <span>NAME HERE***</span></li>
+            <li class="flex"><h3>Date :</h3> <span>{{ jobSpec.createdDate | moment("DD/MM/YYYY") }}</span></li>
+            <li class="flex"><h3>W/CTR :</h3> <span>{{ jobSpec.workCenter }}</span></li>
+            <li class="flex"><h3>Alt Route :</h3> <span>{{ jobSpec.routeCode }}</span></li>
+            <li class="flex"><h3>Dept # :</h3> <span>{{ jobSpec.department }}</span></li>
+            <li class="flex"><h3>Oper # :</h3> <span>{{ jobSpec.operation }}</span></li>
+            <li class="flex"><h3>Part # :</h3> <span>{{ jobSpec.partNumber }}</span></li>
           </ul>
         </div>
         <div class="details-bottom flex-container border open">
-          <div class="flex"><h3>Job #:</h3> <span>12345</span></div>
-          <div class="flex"><h3>Date :</h3> <span>00/00/0000</span></div>
-          <div class="flex"><h3>Clock #:</h3> <span>123456</span></div>
+          <div class="flex"><h3>Job #:</h3> <span>####</span></div>
+          <div class="flex"><h3>Date :</h3> <span>{{ jobSpec.createdDate | moment("DD/MM/YYYY") }}</span></div>
+          <div class="flex"><h3>Clock #:</h3> <span>{{ jobSpec.createdBy }}</span></div>
         </div>
       </div>
       <div v-else></div>
@@ -40,7 +40,7 @@
         <hooper group="group1" :settings="hooperSettings">
           <hooper-navigation slot="hooper-addons"></hooper-navigation>
           <slide class="runchart-button" v-for="number of slideNumbers" :key="number">
-            <div>{{ number }}</div>
+            <div @click="carouselButton()">{{ number }}</div>
           </slide>
           <!-- <slide class="runchart-button"><div>2</div></slide>
           <slide class="runchart-button"><div>3</div></slide>
@@ -55,10 +55,10 @@
     </section>
 
     <section class="carousel-container">
-      <hooper group="group1" :settings="hooperSettings2">
-        <slide v-for="detail of job" :key="detail" class="slide">
-        <!-- <slide v-for="post of posts" :key="post" class="slide"> -->
+      <hooper group="group1" ref="carousel" :settings="hooperSettings2">
+        <!-- <hooper group="group1" ref="carousel" :settings="hooperSettings2" @slide="updateCarousel"> -->
 
+        <slide v-for="detail of job" :key="detail" class="slide">
           <div class="left feature-details">
             <h2>Feature {{ detail.featureNumber }} : Attr {{ detail.featureType }}</h2>
             <p>{{ detail.notes }}</p>
@@ -72,69 +72,13 @@
               <h3>Insp. Tool :</h3> <span>{{ detail.inspectTool }}</span>
             </div>
           </div>
-          <div class="right attr-info">
-            <div class="">
+          <div class="right feature-deets">
+            <div class="feature-info">
               <h2>Pass/Fail</h2>
               <input placeholder="Pass"><button>Add to Chart</button>
             </div>
           </div>
         </slide>
-        <!-- <slide class="slide">
-          <div class="left attr-details">
-            left 2
-          </div>
-          <div class="right attr-info">
-            right 2
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 3
-          </div>
-          <div class="right attr-info">
-            right 3
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 4
-          </div>
-          <div class="right attr-info">
-            right 4
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 5
-          </div>
-          <div class="right attr-info">
-            right 5
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 6
-          </div>
-          <div class="right attr-info">
-            right 6
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 7
-          </div>
-          <div class="right attr-info">
-            right 7
-          </div>
-        </slide>
-        <slide class="slide">
-          <div class="left attr-details">
-            left 8
-          </div>
-          <div class="right attr-info">
-            right 8
-          </div>
-        </slide> -->
         <hooper-pagination slot="hooper-addons"></hooper-pagination>
       </hooper>
     </section>
@@ -152,7 +96,6 @@ import {
   Navigation as HooperNavigation,
   // Progress as HooperProgress,
   Pagination as HooperPagination } from 'hooper';
-
 
   // const API = axios.create({
   //   baseURL: 'http://mec-testnet-01/v2/api/Runchart'
@@ -178,11 +121,13 @@ import {
          toggle: false,
 
          job: '',
+         jobSpec: '',
          post: '',
          slideNumbers: [],
-
+         //slideIndex: this.slideNumbers[i],
           hooperSettings: {
             itemsToShow: 4,
+            //itemsToSlide: 4,
             centerMode: false
           },
           hooperSettings2: {
@@ -193,19 +138,30 @@ import {
            detailsTop: [
 
            ],
-
-           runchartData: [
-             { title: "Drawn By", value: "Sam Nelson"},
-             { title: "Date", value: "09/24/2020"},
-             { title: "W/CTR", value: "1234"},
-             { title: "Alt Route", value: "2"},
-             { title: "Dept #", value: "4"},
-             { title: "Oper #", value: "5"},
-             { title: "Part #", value: "123456789 - Floor Cover Plate"},
-           ],
+           carouselData: 0,
          }
       },
+    watch: {
+      carouselData() {
+        this.$refs.carousel.slideTo(this.carouselData);
+      }
+    },
     methods: {
+      carouselButton() {
+        //this.$refs.carousel.slideTo(this.carouselData)
+        console.log(this.carouselData, " Carousel Number");
+      },
+      slidePrev() {
+        this.$refs.carousel.slidePrev();
+      },
+      slideNext() {
+        this.$refs.carousel.slideNext();
+      },
+      updateCarousel(payload) {
+        this.myCarouselData = payload.currentSlide;
+      },
+
+      //toggle true/false on open close button
       toggleMe: function() {
         this.toggle = !this.toggle;
       }
@@ -223,8 +179,10 @@ import {
       // })
 
       axios.get(`http://mec-testnet-01/v2/api/Runchart/118318/5`).then(response => {
+        this.jobSpec = response.data
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length
+        //this.carouselData =
         console.log(this.job)
       })
     }
