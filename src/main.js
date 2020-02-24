@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from 'axios'
 //import VueCarousel from 'vue-carousel'
 import Hooper from 'hooper';
 import VueMatchHeights from 'vue-match-heights';
@@ -26,6 +27,7 @@ new Vue({
   router,
   Hooper,
   VueMatchHeights,
+  axios,
   // Slide,
   // VueCarousel,
   // VueAgile,
