@@ -222,7 +222,7 @@ import {
       //   console.log(this.job)
       // })
 
-      axios.get(`http://mec-testnet-01/v2/api/Runchart/118318/5`).then(response => {
+      axios.get(`https://mec-testnet-01/v2/api/Runchart/118318/5`).then(response => {
         this.jobSpec = response.data
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length
