@@ -192,7 +192,7 @@ import {
     methods: {
       carouselButton() {
         //this.$refs.carousel.slideTo(this.carouselData)
-        console.log(this.carouselData, " Carousel Number");
+        // console.log(this.carouselData, " Carousel Number");
       },
       slidePrev() {
         this.$refs.carousel.slidePrev();
@@ -227,7 +227,7 @@ import {
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length
         //this.carouselData =
-        console.log(this.job)
+        // console.log(this.job)
       })
     }
   }
