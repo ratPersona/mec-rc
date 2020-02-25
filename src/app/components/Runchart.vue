@@ -74,8 +74,23 @@
           </div>
           <div class="right feature-deets">
             <div class="feature-info">
-              <h2>Pass/Fail</h2>
-              <input placeholder="Pass"><button>Add to Chart</button>
+              <div v-if="chart">
+                <h2>Pass/Fail</h2>
+                <input placeholder="Pass"><button>Add to Chart</button>
+                <!-- <div id="#chart"></div> -->
+                <!-- <fusioncharts :type="type" :width="width" :height="height" :dataFormat="dataFormat" :dataSource="dataSource">
+                </fusioncharts> -->
+
+                <GChart
+                  type="BubbleChart"
+                  :data="chartData"
+                  :options="chartOptions"
+                />
+              </div>
+
+              <div v-else>
+              </div>
+
             </div>
           </div>
         </slide>
@@ -96,6 +111,8 @@ import {
   Navigation as HooperNavigation,
   // Progress as HooperProgress,
   Pagination as HooperPagination } from 'hooper';
+  // import Chart from "frappe-charts"
+  // import { Line } from 'vue-chartjs'
 
   // const API = axios.create({
   //   baseURL: 'http://mec-testnet-01/v2/api/Runchart'
@@ -106,9 +123,12 @@ import {
   //   this.slideNumbers = params.data.runchartFeatures.length
   //   console.log(this.job)
   // })
+  // chart.export();
 
   export default {
     name: 'Runchart',
+    // extends: Line,
+    // props: ['chartdata', 'options'],
     components: {
       Hooper,
       Slide,
@@ -119,11 +139,34 @@ import {
      data: function () {
        return {
          toggle: false,
-
+         chart: true,
          job: '',
          jobSpec: '',
          post: '',
          slideNumbers: [],
+
+         chartData: [
+                 ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
+                 ['CAN',    80.66,              1.67,      'North America',  33739900],
+                 ['DEU',    79.84,              1.36,      'Europe',         81902307],
+                 ['DNK',    78.6,               1.84,      'Europe',         5523095],
+                 ['EGY',    72.73,              2.78,      'Middle East',    79716203],
+                 ['GBR',    80.05,              2,         'Europe',         61801570],
+                 ['IRN',    72.49,              1.7,       'Middle East',    73137148],
+                 ['IRQ',    68.09,              4.77,      'Middle East',    31090763],
+                 ['ISR',    81.55,              2.96,      'Middle East',    7485600],
+                 ['RUS',    68.6,               1.54,      'Europe',         141850000],
+                 ['USA',    78.09,              2.05,      'North America',  307007000]
+               ],
+         chartOptions: {
+           chart: {
+             title: 'Correlation between life expectancy, fertility rate ' +
+                            'and population of some world countries (2010)',
+                     hAxis: {title: 'Life Expectancy'},
+                     vAxis: {title: 'Fertility Rate'},
+                     bubble: {textStyle: {fontSize: 11}}
+           }
+         },
          //slideIndex: this.slideNumbers[i],
           hooperSettings: {
             itemsToShow: 4,
@@ -167,6 +210,7 @@ import {
       }
     },
     mounted () {
+      // this.renderChart(this.chartdata, this.options);
       // axios.get(`http://jsonplaceholder.typicode.com/posts`).then(response => {
       //   this.posts = response.data
       // })
