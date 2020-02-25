@@ -4,6 +4,9 @@
 
 <template>
   <main class="runchart-main-view">
+    <!-- <Navigation jobNumber="Job #" opNumber="Op #"/> -->
+
+
     <article class="runchart-details" v-bind="job">
       <button role="button" class="toggle-me-btn" @click="toggleMe()">
         <svg v-if="toggle" class="icon open"><use href="#close"></use></svg>
@@ -18,7 +21,7 @@
         <div class="details-middle border open">
           <ul class="flex-container value-list">
             <li class="flex"><h3>Drawn By :</h3> <span>NAME HERE***</span></li>
-            <li class="flex"><h3>Date :</h3> <span>{{ jobSpec.createdDate | moment("DD/MM/YYYY") }}</span></li>
+            <!-- <li class="flex"><h3>Date :</h3> <span>{{ jobSpec.createdDate | moment("DD/MM/YYYY") }}</span></li> -->
             <li class="flex"><h3>W/CTR :</h3> <span>{{ jobSpec.workCenter }}</span></li>
             <li class="flex"><h3>Alt Route :</h3> <span>{{ jobSpec.routeCode }}</span></li>
             <li class="flex"><h3>Dept # :</h3> <span>{{ jobSpec.department }}</span></li>
@@ -42,22 +45,12 @@
           <slide class="runchart-button" v-for="number of slideNumbers" :key="number">
             <div @click="carouselButton()">{{ number }}</div>
           </slide>
-          <!-- <slide class="runchart-button"><div>2</div></slide>
-          <slide class="runchart-button"><div>3</div></slide>
-          <slide class="runchart-button"><div>4</div></slide>
-          <slide class="runchart-button"><div>5</div></slide>
-          <slide class="runchart-button"><div>6</div></slide>
-          <slide class="runchart-button"><div>7</div></slide>
-          <slide class="runchart-button"><div>8</div></slide> -->
-          <!-- <hooper-progress slot="hooper-addons"></hooper-progress> -->
         </hooper>
       </section>
     </section>
 
     <section class="carousel-container">
       <hooper group="group1" ref="carousel" :settings="hooperSettings2">
-        <!-- <hooper group="group1" ref="carousel" :settings="hooperSettings2" @slide="updateCarousel"> -->
-
         <slide v-for="detail of job" :key="detail" class="slide">
           <div class="left feature-details">
             <h2>Feature {{ detail.featureNumber }} : Attr {{ detail.featureType }}</h2>
@@ -77,10 +70,6 @@
               <div v-if="chart">
                 <h2>Pass/Fail</h2>
                 <input placeholder="Pass"><button>Add to Chart</button>
-                <!-- <div id="#chart"></div> -->
-                <!-- <fusioncharts :type="type" :width="width" :height="height" :dataFormat="dataFormat" :dataSource="dataSource">
-                </fusioncharts> -->
-
                 <GChart
                   type="BubbleChart"
                   :data="chartData"
@@ -111,24 +100,8 @@ import {
   Navigation as HooperNavigation,
   // Progress as HooperProgress,
   Pagination as HooperPagination } from 'hooper';
-  // import Chart from "frappe-charts"
-  // import { Line } from 'vue-chartjs'
-
-  // const API = axios.create({
-  //   baseURL: 'http://mec-testnet-01/v2/api/Runchart'
-  // })
-  //
-  // getDetails: params => API.get('/118318/5', params).then(params => {
-  //   this.job = params.data
-  //   this.slideNumbers = params.data.runchartFeatures.length
-  //   console.log(this.job)
-  // })
-  // chart.export();
-
   export default {
     name: 'Runchart',
-    // extends: Line,
-    // props: ['chartdata', 'options'],
     components: {
       Hooper,
       Slide,
@@ -136,6 +109,8 @@ import {
       HooperPagination,
       HooperNavigation,
     },
+    props: ['jobNumber', 'opNumber'],
+
      data: function () {
        return {
          toggle: false,
@@ -145,6 +120,7 @@ import {
          post: '',
          slideNumbers: [],
 
+         //for charts
          chartData: [
                  ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
                  ['CAN',    80.66,              1.67,      'North America',  33739900],
@@ -167,7 +143,10 @@ import {
                      bubble: {textStyle: {fontSize: 11}}
            }
          },
-         //slideIndex: this.slideNumbers[i],
+
+         //yes/no
+         pass: '',
+         fail: '',
           hooperSettings: {
             itemsToShow: 4,
             //itemsToSlide: 4,
@@ -210,24 +189,13 @@ import {
       }
     },
     mounted () {
-      // this.renderChart(this.chartdata, this.options);
-      // axios.get(`http://jsonplaceholder.typicode.com/posts`).then(response => {
-      //   this.posts = response.data
-      // })
-      //const api = 'http://mec-testnet-01/v2/api/Runchart'
-
-      // axios.get(`${api}/118318/5`).then(resonse => {
-      //   this.job = response.data
-      //   this.slideNumbers = response.data.runchartFeatures.length
-      //   console.log(this.job)
-      // })
-
+      //Store
+      // console.log(this.$store.state.jobInfo.jobNumber);
+      //api call
       axios.get(`https://mec-testnet-01/v2/api/Runchart/118318/5`).then(response => {
         this.jobSpec = response.data
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length
-        //this.carouselData =
-        // console.log(this.job)
       })
     }
   }

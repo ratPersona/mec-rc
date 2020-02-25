@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from "vuex";
 import axios from 'axios'
 import Moment from 'vue-moment'
 import Hooper from 'hooper';
@@ -22,6 +23,7 @@ import router from './router'
 import store from './store'
 
  // Vue.use(VueApexCharts);
+ Vue.use(Vuex);
  Vue.use(Moment);
  Vue.use(Hooper);
  Vue.use(VueMatchHeights);
