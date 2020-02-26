@@ -5,42 +5,74 @@
 
 <template>
   <header id="header">
-    <img alt="Vue logo" class="logo" src="@/assets/images/logo.png">
-
-    <div class="search-inputs">
-      <input v-model="jobNumber" @input="updateJobNumber" class="left search-input">
-      <input v-model="opNumber" class="right search-input">
-      <!-- <button class="button search-input"><svg class="icon"><use href="#search"></use></svg></button> -->
+    <!-- <button role="button" @click="toggleHeader">
+      <svg class="open" v-if="collapsedHeader"><use href="#dots"></use></svg>
+      <svg class="close" v-else><use href="#close"></use></svg>
+    </button> -->
+    <div v-if="collapsedHeader">
+      <img alt="Vue logo" class="logo-collapse" src="@/assets/images/logo.png">
+      <div class="job-op">
+        <h3>Job # :</h3><span>{{ jobNumber }}</span>
+        <h3>Op # :</h3><span>{{ opNumber }}</span>
+      </div>
+      <button role="button" @click="toggleHeader">
+        <svg class="open"><use href="#dots"></use></svg>
+      </button>
+    </div>
+    <div v-else>
+      <img alt="Vue logo" class="logo" src="@/assets/images/logo.png">
+      <form @submit.prevent="updateJob && updateOp" class="search-inputs">
+        <input v-model="jobNumber" @input="updateJob" class="left search-input">
+        <input v-model="opNumber" @input="updateOp" class="right search-input">
+        <!-- <button class="button search-input"><svg class="icon"><use href="#search"></use></svg></button> -->
+      </form>
+      <button role="button" @click="toggleHeader">
+        <svg class="close"><use href="#close"></use></svg>
+      </button>
     </div>
   </header>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'Navigation',
   data: function () {
     return {
-       jobNumber: 'Job #',
-       opNumber: 'Op #',
+       collapsedHeader: true
     }
   },
   computed: {
-    updateRunchart: {
-      get () {
-        return this.$store.state.jobInfo.jobNumber
-      },
-      set (value) {
-        this.$store.commit("updateJobNumber", value);
-      }
-    }
+    ...mapState([
+          'jobNumber',
+          'opNumber'
+        ]),
   },
   methods: {
-    updateJobNumber (e) {
-      this.$store.commit('updateJobNumber', e.target.value);
+    ...mapMutations([
+      'UPDATE_JOB',
+      'UPDATE_OP'
+    ]),
+    updateJob (e) {
+      // this.$store.commit('updateJobNumber', e.target.value);
+      this.UPDATE_JOB(e.target.value)
+    },
+    updateOp (e) {
+      this.UPDATE_OP(e.target.value)
+    },
+    updateRunchartInfo (job, op) {
+      console.log(this.jobNumber, this.opNumber)
+      this.jobNumber = job;
+      this.opNumber = op;
+    },
+    //toggle true/false on open close button
+    toggleHeader: function() {
+      this.collapsedHeader = !this.collapsedHeader;
     }
   },
   mounted () {
-    console.log(this.$store.state.jobInfo.jobNumber);
+    // console.log(this.$store.state.jobInfo.jobNumber);
     // this.$store.commit("updateJobNumber", "new job number");
     // this.$store.commit("updateJobNumber", {
     //        // newJob: this.jobNumber,

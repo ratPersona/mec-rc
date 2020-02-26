@@ -186,4 +186,149 @@
       }
     }
   }
+
+  //tablet
+  @media (min-width: 500px) and (max-width: 1299px) {
+    .runchart-main-view {
+      padding: 15px 0;
+      //info area on top - collapsable
+      .runchart-details {
+        margin-bottom: 15px;
+        h1, h2, h3 {
+          font-size: 16px;
+        }
+        span {
+          font-size: 16px;
+          font-weight: 700;
+        }
+        .details-top {
+
+        }
+        .details-middle {
+          .value-list {
+
+          }
+        }
+        .details-bottom {
+
+        }
+      }
+
+      //hooper slider - navigation for runchart features
+      .runchart-buttons {
+        .button-list {
+          height: 50px;
+          .hooper {
+            height: 50px;
+          }
+          .runchart-button {
+            div {
+              padding: 10px 0;
+              height: 50px;
+            }
+          }
+        }
+      }
+
+      //hooper slider - informational portion of runchart features
+      .carousel-container {
+        margin-top: 15px;
+        //hooper stuff
+        .slide {
+          .left {
+            padding: 15px;
+            &.feature-details {
+              h2 {
+                font-size: 18px;
+              }
+              p {
+                font-size: 16px;
+              }
+              .feature-detail {
+                h3 {
+                  font-size: 18px;
+                }
+                span {
+                  font-size: 18px;
+                }
+              }
+            }
+          }
+          .right {
+
+          }
+        }
+      }
+    }
+  }
+
+  //desktop
+  @media (min-width: 1300px) {
+    .runchart-main-view {
+      padding: 30px 0;
+      //info area on top - collapsable
+      .runchart-details {
+        margin-bottom: 30px;
+        h1, h2, h3 {
+          font-size: 20px;
+        }
+        span {
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .details-top {
+
+        }
+        .details-middle {
+          .value-list {
+
+          }
+        }
+        .details-bottom {
+
+        }
+      }
+
+      //hooper slider - navigation for runchart features
+      .runchart-buttons {
+        .button-list {
+          .runchart-button {
+            div {
+              padding: 20px 0;
+              height: 75px;
+            }
+          }
+        }
+      }
+
+      //hooper slider - informational portion of runchart features
+      .carousel-container {
+        //hooper stuff
+        .slide {
+          .left {
+            padding: 15px;
+            &.feature-details {
+              h2 {
+                font-size: 18px;
+              }
+              p {
+                font-size: 16px;
+              }
+              .feature-detail {
+                h3 {
+                  font-size: 18px;
+                }
+                span {
+                  font-size: 18px;
+                }
+              }
+            }
+          }
+          .right {
+
+          }
+        }
+      }
+    }
+  }
 }

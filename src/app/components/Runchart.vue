@@ -78,6 +78,7 @@
               </div>
 
               <div v-else>
+                test
               </div>
 
             </div>
@@ -94,6 +95,8 @@
 //TODO: HOOPER WINS! NOTES - Vue Carousel works but no native "asNavFor", Vue Agile is deprecated, Vue Slick doesn't work properly, Vue Slick Carousel is...broken
 import 'hooper/dist/hooper.css';
 import axios from 'axios';
+import { mapState } from 'vuex';
+
 import {
   Hooper,
   Slide,
@@ -109,7 +112,7 @@ import {
       HooperPagination,
       HooperNavigation,
     },
-    props: ['jobNumber', 'opNumber'],
+    // props: ['jobNumber', 'opNumber'],
     data: function () {
        return {
          toggle: false,
@@ -118,6 +121,7 @@ import {
          jobSpec: '',
          post: '',
          slideNumbers: [],
+         // jobNumber: '',
 
          //for charts
          chartData: [
@@ -169,7 +173,6 @@ import {
     },
     methods: {
       //STORE
-
       carouselButton() {
         //this.$refs.carousel.slideTo(this.carouselData)
         // console.log(this.carouselData, " Carousel Number");
@@ -187,17 +190,33 @@ import {
       //toggle true/false on open close button
       toggleMe: function() {
         this.toggle = !this.toggle;
-      }
+      },
+      // async getApi (job, op) {
+      //   return axios.get('http://mec-testnet-01/v2/api/Runchart/' + job + '/' + op ).then(response => {
+      //     this.jobSpec = response.data
+      //     this.job = response.data.runchartFeatures
+      //     this.slideNumbers = response.data.runchartFeatures.length
+      //   });
+      // }
+    },
+    computed: {
+      //store
+    ...mapState([
+          'jobNumber',
+          'opNumber'
+        ]),
+
     },
     mounted () {
       //Store
-      // console.log(this.$store.state.jobInfo.jobNumber);
+
       //api call
-      axios.get(`https://mec-testnet-01/v2/api/Runchart/118318/5`).then(response => {
+      axios.get('http://mec-testnet-01/v2/api/Runchart/' + this.jobNumber + '/' + this.opNumber ).then(response => {
         this.jobSpec = response.data
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length
-      })
+      });
+
     }
   }
 </script>

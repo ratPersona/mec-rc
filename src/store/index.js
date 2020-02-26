@@ -1,23 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    jobNumber: '118318',
+    opNumber: '5',
     jobInfo: {
-      jobNumber: 'Job #',
-      opNumber: 'Op #'
+      jobNumber: '',
+      opNumber: ''
     }
   },
-  mutations: {
-    updateJobNumber(state, payload){
-      state.jobInfo.jobNumber = payload;
-      // state.jobInfo.jobNumber = payload.newJob;
+  getters: {
 
+  },
+  mutations: {
+    UPDATE_JOB: (state, job) => {
+      state.jobNumber = job;
     },
-    updateOpNumber(state, payload){
-      state.jobInfo.opNumber = payload;
+    UPDATE_OP: (state, op) => {
+      state.opNumber = op;
       // state.jobInfo.opNumber = payload.newOp;
     }
   },
