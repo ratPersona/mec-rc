@@ -110,8 +110,7 @@ import {
       HooperNavigation,
     },
     props: ['jobNumber', 'opNumber'],
-
-     data: function () {
+    data: function () {
        return {
          toggle: false,
          chart: true,
@@ -169,6 +168,8 @@ import {
       }
     },
     methods: {
+      //STORE
+
       carouselButton() {
         //this.$refs.carousel.slideTo(this.carouselData)
         // console.log(this.carouselData, " Carousel Number");
