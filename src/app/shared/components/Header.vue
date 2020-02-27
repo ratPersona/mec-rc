@@ -15,20 +15,23 @@
         <h3>Job # :</h3><span>{{ jobNumber }}</span>
         <h3>Op # :</h3><span>{{ opNumber }}</span>
       </div>
-      <button role="button" @click="toggleHeader">
+      <button role="button" @click="checkHeaderValue">
         <svg class="open"><use href="#dots"></use></svg>
       </button>
     </div>
     <div v-else>
       <img alt="Vue logo" class="logo" src="@/assets/images/logo.png">
-      <form @submit.prevent="updateJob && updateOp" class="search-inputs">
-        <input v-model="jobNumber" @input="updateJob" class="left search-input">
-        <input v-model="opNumber" @input="updateOp" class="right search-input">
+      <!-- <form @submit.prevent="updateJob && updateOp"> -->
+      <form>
+        <div class="search-inputs">
+          <input v-model="jobNumber" @input="updateJob" class="left search-input">
+          <input v-model="opNumber" @input="updateOp" class="right search-input">
+        </div>
         <!-- <button class="button search-input"><svg class="icon"><use href="#search"></use></svg></button> -->
+        <button role="button" @click="checkHeaderValue" id="correct"> <!-- @click="forceRerender"  -->
+          <svg class="close"><use href="#check"></use></svg>
+        </button>
       </form>
-      <button role="button" @click="toggleHeader">
-        <svg class="close"><use href="#close"></use></svg>
-      </button>
     </div>
   </header>
 </template>
@@ -40,45 +43,48 @@ export default {
   name: 'Navigation',
   data: function () {
     return {
-       collapsedHeader: true
+      //toggles the height/state of the header
+       // collapsedHeader: true
     }
   },
   computed: {
+    //necessary values to manage which runchart we are looking at
     ...mapState([
           'jobNumber',
-          'opNumber'
+          'opNumber',
+          'componentKey',
+          'collapsedHeader'
         ]),
   },
   methods: {
+    //functions used to update the axios call
     ...mapMutations([
       'UPDATE_JOB',
-      'UPDATE_OP'
+      'UPDATE_OP',
+      'UPDATE_HEADER',
+      'UPDATE_KEY'
     ]),
     updateJob (e) {
-      // this.$store.commit('updateJobNumber', e.target.value);
       this.UPDATE_JOB(e.target.value)
     },
     updateOp (e) {
       this.UPDATE_OP(e.target.value)
     },
-    updateRunchartInfo (job, op) {
-      console.log(this.jobNumber, this.opNumber)
-      this.jobNumber = job;
-      this.opNumber = op;
-    },
     //toggle true/false on open close button
-    toggleHeader: function() {
-      this.collapsedHeader = !this.collapsedHeader;
-    }
+    checkHeaderValue () {
+      this.UPDATE_HEADER(this.collapsedHeader = !this.collapsedHeader);
+      if (this.collapsedHeader === true) {
+        this.UPDATE_KEY(this.componentKey += 1);
+        console.log("true", this.componentKey);
+        // return;
+      } else if (this.collapsedHeader === false) {
+        console.log("false")
+        return;
+      }
+    },
   },
   mounted () {
-    // console.log(this.$store.state.jobInfo.jobNumber);
-    // this.$store.commit("updateJobNumber", "new job number");
-    // this.$store.commit("updateJobNumber", {
-    //        // newJob: this.jobNumber,
-    //        newJob: "new job number",
-    //
-    // });
+
   }
 }
 </script>

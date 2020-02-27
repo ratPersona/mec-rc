@@ -3,16 +3,15 @@
 </style>
 
 <template>
-  <main class="runchart-main-view">
-    <!-- <Navigation jobNumber="Job #" opNumber="Op #"/> -->
+  <main class="runchart-main-view" :key="componentKey" v-bind="force">
 
+    {{ componentKey }}
 
     <article class="runchart-details" v-bind="job">
       <button role="button" class="toggle-me-btn" @click="toggleMe()">
         <svg v-if="toggle" class="icon open"><use href="#close"></use></svg>
         <svg class="icon closed" v-else><use href="#open"></use></svg>
       </button>
-      <!-- v-for="detail of job" :key="detail" -->
       <div class="details-top flex-container">
         <div class="flex"><h1>Run Chart #:</h1> <span>{{ jobSpec.runchartNumber }}</span></div>
         <div class="flex"><h2>Run Chart Revision:</h2> <span>{{ jobSpec.runchartRevision }}</span></div>
@@ -21,7 +20,6 @@
         <div class="details-middle border open">
           <ul class="flex-container value-list">
             <li class="flex"><h3>Drawn By :</h3> <span>NAME HERE***</span></li>
-            <!-- <li class="flex"><h3>Date :</h3> <span>{{ jobSpec.createdDate | moment("DD/MM/YYYY") }}</span></li> -->
             <li class="flex"><h3>W/CTR :</h3> <span>{{ jobSpec.workCenter }}</span></li>
             <li class="flex"><h3>Alt Route :</h3> <span>{{ jobSpec.routeCode }}</span></li>
             <li class="flex"><h3>Dept # :</h3> <span>{{ jobSpec.department }}</span></li>
@@ -48,7 +46,6 @@
         </hooper>
       </section>
     </section>
-
     <section class="carousel-container">
       <hooper group="group1" ref="carousel" :settings="hooperSettings2">
         <slide v-for="detail of job" :key="detail" class="slide">
@@ -70,17 +67,11 @@
               <div v-if="chart">
                 <h2>Pass/Fail</h2>
                 <input placeholder="Pass"><button>Add to Chart</button>
-                <GChart
-                  type="BubbleChart"
-                  :data="chartData"
-                  :options="chartOptions"
-                />
+                <GChart type="BubbleChart" :data="chartData" :options="chartOptions" />
               </div>
-
               <div v-else>
                 test
               </div>
-
             </div>
           </div>
         </slide>
@@ -90,29 +81,20 @@
   </main>
 </template>
 
-
 <script>
-//TODO: HOOPER WINS! NOTES - Vue Carousel works but no native "asNavFor", Vue Agile is deprecated, Vue Slick doesn't work properly, Vue Slick Carousel is...broken
 import 'hooper/dist/hooper.css';
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { Hooper, Slide, Navigation as HooperNavigation, Pagination as HooperPagination } from 'hooper';
 
-import {
-  Hooper,
-  Slide,
-  Navigation as HooperNavigation,
-  // Progress as HooperProgress,
-  Pagination as HooperPagination } from 'hooper';
-  export default {
+export default {
     name: 'Runchart',
     components: {
       Hooper,
       Slide,
-      // HooperProgress,
       HooperPagination,
       HooperNavigation,
     },
-    // props: ['jobNumber', 'opNumber'],
     data: function () {
        return {
          toggle: false,
@@ -121,8 +103,6 @@ import {
          jobSpec: '',
          post: '',
          slideNumbers: [],
-         // jobNumber: '',
-
          //for charts
          chartData: [
                  ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
@@ -146,7 +126,6 @@ import {
                      bubble: {textStyle: {fontSize: 11}}
            }
          },
-
          //yes/no
          pass: '',
          fail: '',
@@ -167,12 +146,23 @@ import {
          }
       },
     watch: {
+      //store
+      force () {
+        if (this.componentKey ++) {
+          this.$forceUpdate();
+        }
+      },
+
       carouselData() {
         this.$refs.carousel.slideTo(this.carouselData);
       }
     },
     methods: {
       //STORE
+      ...mapMutations([
+        'UPDATE_KEY'
+      ]),
+      //carousels
       carouselButton() {
         //this.$refs.carousel.slideTo(this.carouselData)
         // console.log(this.carouselData, " Carousel Number");
@@ -186,32 +176,25 @@ import {
       updateCarousel(payload) {
         this.myCarouselData = payload.currentSlide;
       },
-
       //toggle true/false on open close button
       toggleMe: function() {
         this.toggle = !this.toggle;
       },
-      // async getApi (job, op) {
-      //   return axios.get('http://mec-testnet-01/v2/api/Runchart/' + job + '/' + op ).then(response => {
-      //     this.jobSpec = response.data
-      //     this.job = response.data.runchartFeatures
-      //     this.slideNumbers = response.data.runchartFeatures.length
-      //   });
-      // }
     },
     computed: {
       //store
     ...mapState([
           'jobNumber',
-          'opNumber'
+          'opNumber',
+          'componentKey',
+          'baseURL',
+          'collapsedHeader'
         ]),
-
     },
     mounted () {
       //Store
-
       //api call
-      axios.get('http://mec-testnet-01/v2/api/Runchart/' + this.jobNumber + '/' + this.opNumber ).then(response => {
+      axios.get( this.baseURL + this.jobNumber + '/' + this.opNumber ).then(response => {
         this.jobSpec = response.data
         this.job = response.data.runchartFeatures
         this.slideNumbers = response.data.runchartFeatures.length

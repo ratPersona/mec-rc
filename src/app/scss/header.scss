@@ -10,7 +10,7 @@
   .search-inputs {
     // float: right;
     position: absolute;
-    right: 10px;
+    right: 30px;
     top: 0;
     height: 100%;
     display: flex;
@@ -34,7 +34,7 @@
       }
       &.right {
         border-radius: 0 20px 20px 0;
-        margin-right: 10px;
+        margin-right: 30px;
       }
       &.button { //may not need this
         background-color: #a90c21;
@@ -69,6 +69,7 @@
       right: 0;
       top: 0;
       bottom: 0;
+      width: 60px;
 
       &:hover {
         background-color: #D42F44;
@@ -85,8 +86,8 @@
     .job-op {
       min-width: 30px;
       position: absolute;
-      right: 60px;
-      top: 0;
+      right: 80px;
+      top: 2px;
       bottom: 0;
       h3,span {
         position: relative;
