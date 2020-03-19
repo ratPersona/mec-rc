@@ -1,8 +1,12 @@
+<style lang="scss">
+  @import '/app/scss/styles.scss';
+</style>
+
 <template>
   <div id="app">
     <Header />
 
-    <router-view/>
+    <router-view  :key="componentKey"/>
 
     <Navigation />
 
@@ -26,18 +30,32 @@
   </div>
 </template>
 
-<style lang="scss">
-  @import '/app/scss/styles.scss';
-</style>
-
 <script>
   import Header from '@/app/shared/components/Header.vue'
   import Navigation from '@/app/shared/components/Navigation.vue'
+  import { mapState, mapMutations } from 'vuex';
 
   export default {
     components: {
       Navigation,
       Header
+    },
+    data(){
+      return {
+
+      }
+    },
+    computed: {
+      //necessary values to manage which runchart we are looking at
+      ...mapState([
+            'componentKey',
+            'collapsedHeader'
+          ]),
+    },
+    methods: {
+      ...mapMutations([
+        'UPDATE_KEY'
+      ]),
     }
   }
 </script>

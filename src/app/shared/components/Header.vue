@@ -22,7 +22,7 @@
     <div v-else>
       <img alt="Vue logo" class="logo" src="@/assets/images/logo.png">
       <!-- <form @submit.prevent="updateJob && updateOp"> -->
-      <form>
+      <div>
         <div class="search-inputs">
           <input v-model="jobNumber" @input="updateJob" class="left search-input">
           <input v-model="opNumber" @input="updateOp" class="right search-input">
@@ -31,7 +31,7 @@
         <button role="button" @click="checkHeaderValue" id="correct"> <!-- @click="forceRerender"  -->
           <svg class="close"><use href="#check"></use></svg>
         </button>
-      </form>
+      </div>
     </div>
   </header>
 </template>

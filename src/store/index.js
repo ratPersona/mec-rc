@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     jobNumber: '118318',
     opNumber: '5',
+    chart: true,
     componentKey: 0,
     collapsedHeader: true,
     baseURL: "http://mec-testnet-01/v2/api/Runchart/", //runchart url
@@ -23,7 +24,6 @@ export default new Vuex.Store({
     },
     UPDATE_OP: (state, op) => {
       state.opNumber = op;
-      // state.jobInfo.opNumber = payload.newOp;
     },
     UPDATE_HEADER: (state, value) => {
       state.collapsedHeader = value;
