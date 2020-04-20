@@ -64,18 +64,36 @@
             </div>
             <div class="right feature-deets">
               <div class="feature-info">
-                <div v-if="graph">
+                <div class="graph-container" v-if="graph">
                   <header class="content-header">
-                    <h2>Pass/Fail</h2>
-                    <input placeholder="Pass"><button>Add to Chart</button>
+                    <h2 class="runchart-header">Pass/Fail</h2>
+                    <div class="input-container">
+                      <svg class="info-tooltip"><use href="#info"></use></svg>
+                      <input placeholder="#Passing Amount" v-model="numberInput" @keypress="isNumber($event)">
+                      <button class="runchart-add-btn">Add to Chart</button>
+                    </div>
                   </header>
-                  <GChart type="BubbleChart" :data="graphData" :options="graphOptions" />
+                  <GChart class="runchart-graph" type="BubbleChart" :data="graphData2" :options="graphOptions" />
                 </div>
                 <div v-else>
                   <header class="content-header">
-                    <h2>Pass/Fail</h2>
-                    <input placeholder="Pass"><button>Add</button>
+                    <h2 class="runchart-header">Pass/Fail</h2>
+                    <div class="input-container">
+                      <svg class="info-tooltip"><use href="#info"></use></svg>
+                      <select>
+                        <option selected>Pass</option>
+                        <option>Fail</option>
+                      </select>
+                      <button class="runchart-add-btn">Add to Chart</button>
+                    </div>
                   </header>
+                  <div class="pass-fail-grid">
+                    <div v-repeat="passFail">
+                      {{ status }}
+                      {{ date }}
+                      {{ initials }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -117,27 +135,18 @@
            //chart detailsTop
            job: '',
            jobSpec: '',
+           passFail: [
+             { status: 'pass', date: '12/12/1212', initials: 'SN' }
+           ],
            // chartAuthor: '',
            rcFeatureType: [],
-           rcFeatureType2: [
-            { type: 'STANDARD' , number: 1 },
-            { type: 'ATTRIBUTE' , number: 3 },
-            { type: 'POST PRE-CONTROL' , number: 7 },
-            { type: 'HEAT ATTRIBUTE' , number: 4 },
-            { type: 'VISUAL ATTRIBUTE' , number: 5 },
-            { type: 'INSPECTION ATTRIBUTE' , number: 6 },
-            { type: 'PRE-CONTROL' , number: 2 },
-            { type: 'MINOR DIAMETER TAP' , number: 11 },
-            { type: 'RUST PREVENTATIVE' , number: 8 },
-            { type: 'REACTION PLAN' , number: 10 },
-            { type: 'NOT SYMMETRICAL' , number: 9 }
-          ],
            //other
            toggle: false,
            post: '',
            graph: true,
            slideNumbers: [],
-           //for charts
+
+           //for graph charts
            graphData: [
                    ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
                    ['CAN',    80.66,              1.67,      'North America',  33739900],
@@ -151,6 +160,13 @@
                    ['RUS',    68.6,               1.54,      'Europe',         141850000],
                    ['USA',    78.09,              2.05,      'North America',  307007000]
                  ],
+           graphData2: [
+             ['test', 'test2', 'test3'],
+             ['first attr', 19, 1],
+             ['second test', 10, 2],
+             ['third test', 12, 4]
+
+           ],
            graphOptions: {
              chart: {
                title: 'Correlation between life expectancy, fertility rate ' +
@@ -161,14 +177,18 @@
                  textStyle: { fontSize: 11 },
                  opacity: { opacity: 1.0 }
                },
+               colorAxis: {
+                 colors: '#dedede'
+               },
              }
            },
+           numberInput: '',
+
            //yes/no
            pass: '',
            fail: '',
             hooperSettings: {
               itemsToShow: 4,
-              //itemsToSlide: 4,
               centerMode: false
             },
             hooperSettings2: {
@@ -188,6 +208,16 @@
         }
       },
       methods: {
+        isNumber: function(evt) {
+          evt = (evt) ? evt : window.event;
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            evt.preventDefault();
+          } else {
+            return true;
+          }
+        },
+
         //STORE
         ...mapMutations([
           'UPDATE_KEY'
