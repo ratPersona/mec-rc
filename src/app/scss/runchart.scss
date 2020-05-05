@@ -1,3 +1,6 @@
+@import 'mixins.scss';
+
+
 .runchart {
   //GENERAL
   .border {
@@ -9,18 +12,17 @@
     //info area on top - collapsable
     .runchart-details {
       position: relative;
-      // width: 90%;
       width: 95%;
       padding: 0 15px;
       margin: 0 auto 30px;
       background-color: #F1EEEE;
-      border: 1px solid #dedede;
+      border: 1px solid $white;
 
       .toggle-me-btn {
         position: absolute;
         top: 12px;
         right: 10px;
-        color: #1e1e1e;
+        color: $black;
         background: transparent;
         border: none;
         padding: 10px;
@@ -109,8 +111,8 @@
             justify-content: center;
             //general styling
             margin: auto;
-            background-color: #dedede;
-            color: #1E1E1E;
+            background-color: $white;
+            color: $black;
             padding: 20px 0;
             width: 80%;
             height: 75px;
@@ -119,8 +121,8 @@
           //hooper stuff
           &.is-current {
             div {
-              background-color: #1E1E1E;
-              color: #dedede;
+              background-color: $black;
+              color: $white;
               transition: background-color 300ms ease, color 300ms ease;
             }
           }
@@ -147,7 +149,7 @@
         font-size: 1.5rem;
 
         .left, .right {
-          border: 1px solid #dedede;
+          border: 1px solid $white;
           height: 100%;
           min-height: 200px;
           h2, span {

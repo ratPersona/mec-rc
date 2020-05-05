@@ -6,11 +6,11 @@
     <router-link to="/drawings">Drawings</router-link>
     <router-link to="/hanging">Hanging</router-link>
     <router-link to="/packaging">Packaging</router-link>
-    <router-link to="/product-issue">Product Issue</router-link>
+    <!-- <router-link to="/product-issue">Product Issue</router-link>
     <router-link to="/vpars">VPars</router-link>
     <router-link to="/assistance">Assistance</router-link>
     <router-link to="/timekeeping">Timekeeping</router-link>
-    <router-link to="/material-request">Material Request</router-link>
+    <router-link to="/material-request">Material Request</router-link> -->
   </nav>
 </template>
 
