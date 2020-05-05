@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    longJobNumber: '18118318',
     jobNumber: '118318',
     opNumber: '5',
     chart: true,

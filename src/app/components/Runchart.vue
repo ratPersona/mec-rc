@@ -69,8 +69,8 @@
                     <h2 class="runchart-header">Pass/Fail</h2>
                     <div class="input-container">
                       <svg class="info-tooltip"><use href="#info"></use></svg>
-                      <input placeholder="#Passing Amount" v-model="numberInput" @keypress="isNumber($event)">
-                      <button class="runchart-add-btn">Add to Chart</button>
+                      <input placeholder="#Passing Amount" v-model="newRunchartFeature.dimension" @keypress="isNumber($event)">
+                      <button class="runchart-add-btn" @click="addFeature()">Add to Chart</button>
                     </div>
                   </header>
                   <GChart class="runchart-graph" type="BubbleChart" :data="graphData2" :options="graphOptions" />
@@ -138,6 +138,11 @@
            passFail: [
              { status: 'pass', date: '12/12/1212', initials: 'SN' }
            ],
+           //add a POST
+            newRunchartFeature: {
+              notes: "",
+              dimension: ""
+            },
            // chartAuthor: '',
            rcFeatureType: [],
            //other
@@ -218,6 +223,32 @@
           }
         },
 
+        addFeature() {
+          let today = new Date()
+          let todayDate = today.toJSON().slice(0,10).replace(/-/g,'-')
+          let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+
+          let newFeatureData = {
+            "createDate": todayDate,
+            "createTime": time,
+            "dimension": this.newRunchartFeature.dimension,
+            "notes": this.newRunchartFeature.notes,
+            "jobNumber": this.longJobNumber,
+            "jobNum": this.jobNumber,
+            "operation": this.opNumber,
+            "employeeNumber": "964",
+            "resultsId": null,
+            "rowid": null,
+            "runchartFeatureId": null,
+
+          }
+
+          this.UPDATE_KEY(this.componentKey += 1)
+
+          axios.post("https://mytest.mecinc.com/v2/api/Runchart", newFeatureData)
+          console.log(newFeatureData)
+        },
+
         //STORE
         ...mapMutations([
           'UPDATE_KEY'
@@ -245,6 +276,7 @@
         //store
       ...mapState([
             'jobNumber',
+            'longJobNumber',
             'opNumber',
             'componentKey',
             'baseURL',
