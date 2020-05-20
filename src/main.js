@@ -4,7 +4,9 @@ import axios from 'axios'
 import Moment from 'vue-moment'
 import Hooper from 'hooper';
 import VueMatchHeights from 'vue-match-heights';
-// import VueApexCharts from 'apexcharts';
+// import ApexCharts from 'apexcharts'
+import VueGoogleCharts from 'vue-google-charts'
+
 // import Chart from "frappe-charts"
 
 // import VueFusionCharts from 'vue-fusioncharts';
@@ -15,14 +17,13 @@ import VueMatchHeights from 'vue-match-heights';
 //import VueSlickCarousel from 'vue-slick-carousel'
 // import Slick from 'vue-slick';
 //import VueCarousel from 'vue-carousel'
-import VueGoogleCharts from 'vue-google-charts'
 
 
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
- // Vue.use(VueApexCharts);
+ // Vue.use(ApexCharts);
  Vue.use(Vuex);
  Vue.use(Moment);
  Vue.use(Hooper);
@@ -37,8 +38,8 @@ new Vue({
   Hooper,
   VueMatchHeights,
   VueGoogleCharts,
-  // VueFusionCharts, FusionCharts, Charts,
   axios,
+  // ApexCharts,
   Moment,
   store,
   render: h => h(App)

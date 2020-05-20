@@ -4,11 +4,8 @@
 
 <template>
   <main class="runchart-main-view">
-    <!-- <div v-for="feature of rcFeatureType" :key="feature">
-      {{ feature.featureType + ' '  + feature.description }}
-    </div> -->
     <section v-if="chart">
-      <article class="runchart-details" v-bind="job">
+      <article class="runchart-details">
         <button role="button" class="toggle-me-btn" @click="toggleMe()">
           <svg v-if="toggle" class="icon open"><use href="#close"></use></svg>
           <svg class="icon closed" v-else><use href="#open"></use></svg>
@@ -36,6 +33,7 @@
         </div>
         <div v-else></div>
       </article>
+
       <section class="runchart-buttons">
         <section class="button-list">
           <hooper group="group1" :settings="hooperSettings">
@@ -64,34 +62,73 @@
             </div>
             <div class="right feature-deets">
               <div class="feature-info">
-                <div class="graph-container" v-if="graph">
+                <div class="graph-container" v-if="detail.featureType === 1">
                   <header class="content-header">
-                    <h2 class="runchart-header">Pass/Fail</h2>
+                    <h2 class="runchart-header">{{ detail.featureId }}</h2>
                     <div class="input-container">
                       <svg class="info-tooltip"><use href="#info"></use></svg>
-                      <input placeholder="#Passing Amount" v-model="newRunchartFeature.dimension" @keypress="isNumber($event)">
+                      <input placeholder="#Passing Amount" v-model="newRunchartFeature.dimension">
                       <button class="runchart-add-btn" @click="addFeature()">Add to Chart</button>
                     </div>
                   </header>
-                  <GChart class="runchart-graph" type="BubbleChart" :data="graphData2" :options="graphOptions" />
+
+                  <div v-for="featureDetails in detail.featureResults" :key="featureDetails">
+                    <!-- createDate: (...)
+                    createTime: (...)
+                    dimension: (...)
+                    employeeNumber: (...)
+                    jobNum: (...)
+                    jobNumber: (...)
+                    notes: (...)
+                    operation: (...)
+                    resultsId: (...)
+                    rowid: (...) -->
+                    {{ featureDetails.employeeNumber }}
+                    {{ featureDetails.dimension }}
+                    {{ featureDetails.notes }}
+                    <!-- <apexchart width="500" type="scatter" :data="featureDetails.employeeNumber" :series="series"></apexchart> -->
+                    <!-- <GChart
+                      class="runchart-graph"
+                      type="BubbleChart"
+                      :data="[featureDetails]" /> -->
+                  </div>
                 </div>
+
                 <div v-else>
                   <header class="content-header">
                     <h2 class="runchart-header">Pass/Fail</h2>
                     <div class="input-container">
                       <svg class="info-tooltip"><use href="#info"></use></svg>
                       <select>
-                        <option selected>Pass</option>
-                        <option>Fail</option>
+                        <option val="0" selected>Pass</option>
+                        <option val="1">Fail</option>
                       </select>
                       <button class="runchart-add-btn">Add to Chart</button>
                     </div>
                   </header>
                   <div class="pass-fail-grid">
-                    <div v-repeat="passFail">
-                      {{ status }}
-                      {{ date }}
-                      {{ initials }}
+                    <div v-for="featureDetails in detail.featureResults" :key="featureDetails" class="grid">
+                      <h3 class="grid-date">{{ featureDetails.createDate | moment("MM/DD/YYYY") }}</h3>
+
+
+                      <!-- {{ detail.lowerTolerance }}
+                      {{ detail.upperTolerance }}
+                      {{ featureDetails.dimension }} -->
+                      <!-- <div v-if="featureDetails.dimension >= detail.lowerTolerance && featureDetails.dimension <= detail.upperTolerance"> -->
+                      <div v-if="featureDetails.dimension === 1">
+                        <span class="sr-only">Pass</span>
+                        <svg class="pass"><use href="#pass"></use></svg>
+                      </div>
+                      <div v-else>
+                        <span class="sr-only">Fail</span>
+                        <svg class="fail"><use href="#fail"></use></svg>
+                      </div>
+
+                      <div class="hidden-details">
+                        {{ featureDetails.dimension }}
+                        {{ featureDetails.notes }}
+                        {{ featureDetails.employeeNumber }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -119,6 +156,7 @@
 <script>
   import 'hooper/dist/hooper.css';
   import axios from 'axios';
+  import VueApexCharts from 'vue-apexcharts'
   import { mapState, mapMutations } from 'vuex';
   import { Hooper, Slide, Navigation as HooperNavigation, Pagination as HooperPagination } from 'hooper';
 
@@ -132,8 +170,13 @@
       },
       data: function () {
          return {
+
+           components: {
+             apexchart: VueApexCharts,
+           },
+
            //chart detailsTop
-           job: '',
+           // job: '',
            jobSpec: '',
            passFail: [
              { status: 'pass', date: '12/12/1212', initials: 'SN' }
@@ -143,8 +186,6 @@
               notes: "",
               dimension: ""
             },
-           // chartAuthor: '',
-           rcFeatureType: [],
            //other
            toggle: false,
            post: '',
@@ -152,46 +193,17 @@
            slideNumbers: [],
 
            //for graph charts
-           graphData: [
-                   ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
-                   ['CAN',    80.66,              1.67,      'North America',  33739900],
-                   ['DEU',    79.84,              1.36,      'Europe',         81902307],
-                   ['DNK',    78.6,               1.84,      'Europe',         5523095],
-                   ['EGY',    72.73,              2.78,      'Middle East',    79716203],
-                   ['GBR',    80.05,              2,         'Europe',         61801570],
-                   ['IRN',    72.49,              1.7,       'Middle East',    73137148],
-                   ['IRQ',    68.09,              4.77,      'Middle East',    31090763],
-                   ['ISR',    81.55,              2.96,      'Middle East',    7485600],
-                   ['RUS',    68.6,               1.54,      'Europe',         141850000],
-                   ['USA',    78.09,              2.05,      'North America',  307007000]
-                 ],
-           graphData2: [
-             ['test', 'test2', 'test3'],
-             ['first attr', 19, 1],
-             ['second test', 10, 2],
-             ['third test', 12, 4]
+           // graphData2: [
+           //   ['test', 'test2', 'test3'],
+           //   ['first attr', 19, 1],
+           //   ['second test', 10, 2],
+           //   ['third test', 12, 4]
+           // ],
+            updatedChartData: [],
 
-           ],
-           graphOptions: {
-             chart: {
-               title: 'Correlation between life expectancy, fertility rate ' +
-                              'and population of some world countries (2010)',
-               hAxis: {title: 'Life Expectancy'},
-               vAxis: {title: 'Fertility Rate'},
-               bubble: {
-                 textStyle: { fontSize: 11 },
-                 opacity: { opacity: 1.0 }
-               },
-               colorAxis: {
-                 colors: '#dedede'
-               },
-             }
-           },
+           graphOptions: ['Year', 'Sales', 'Expenses', 'Profit'],
+
            numberInput: '',
-
-           //yes/no
-           pass: '',
-           fail: '',
             hooperSettings: {
               itemsToShow: 4,
               centerMode: false
@@ -213,39 +225,28 @@
         }
       },
       methods: {
-        isNumber: function(evt) {
-          evt = (evt) ? evt : window.event;
-          var charCode = (evt.which) ? evt.which : evt.keyCode;
-          if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-            evt.preventDefault();
-          } else {
-            return true;
-          }
-        },
-
+        //ADD TO TABLE
         addFeature() {
           let today = new Date()
           let todayDate = today.toJSON().slice(0,10).replace(/-/g,'-')
           let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-
           let newFeatureData = {
             "createDate": todayDate,
             "createTime": time,
-            "dimension": this.newRunchartFeature.dimension,
+            "dimension": parseInt(this.newRunchartFeature.dimension),
             "notes": this.newRunchartFeature.notes,
-            "jobNumber": this.longJobNumber,
-            "jobNum": this.jobNumber,
-            "operation": this.opNumber,
-            "employeeNumber": "964",
-            "resultsId": null,
+            "jobNumber": parseInt(this.longJobNumber),
+            "jobNum": parseInt(this.jobNumber),
+            "operation": parseInt(this.opNumber),
+            "employeeNumber": parseInt(964),
+            "resultsId": 0,
             "rowid": null,
-            "runchartFeatureId": null,
+            "runchartFeatureId": 1326113,
 
           }
-
           this.UPDATE_KEY(this.componentKey += 1)
-
           axios.post("https://mytest.mecinc.com/v2/api/Runchart", newFeatureData)
+          // axios.post("https://mec-testnet-01/v2/api/Runchart", newFeatureData)
           console.log(newFeatureData)
         },
 
@@ -273,32 +274,31 @@
         },
       },
       computed: {
+        graphData () {
+          const data = []
+          data.push(this.job.featureResults)
+          return data
+        },
         //store
       ...mapState([
             'jobNumber',
             'longJobNumber',
             'opNumber',
             'componentKey',
-            'baseURL',
+            // 'baseURL',
             'chart',
-            'collapsedHeader'
+            'collapsedHeader',
+
+            //map api
+            'job'
           ]),
       },
+      created () {
+        // this.updateData()
+        this.$store.dispatch('loadData') // dispatch loading
+      },
       mounted () {
-        //Store
 
-        //static api call
-        axios.get('http://mec-testnet-01/v2/api/RunchartFeatureType').then(response => {
-          this.rcFeatureType = response.data
-        });
-
-        //api call
-        axios.get( this.baseURL + this.jobNumber + '/' + this.opNumber ).then(response => {
-          this.jobSpec = response.data
-          this.job = response.data.runchartFeatures
-          this.slideNumbers = response.data.runchartFeatures.length
-          // this.chartAuthor = response.data.createdByName
-        });
       }
     }
 </script>

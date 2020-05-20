@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import axios from 'axios'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -12,7 +12,10 @@ export default new Vuex.Store({
     chart: true,
     componentKey: 0,
     collapsedHeader: true,
-    baseURL: "http://mec-testnet-01/v2/api/Runchart/", //runchart url
+    baseURL: "https://mytest.mecinc.com/v2/api/Runchart/", //runchart url
+    // baseURL: "http://mec-testnet-01/v2/api/Runchart/", //runchart url
+
+    job: []
   },
 
   getters: {
@@ -31,11 +34,21 @@ export default new Vuex.Store({
     },
     UPDATE_KEY: (state, key) => {
       state.componentKey = key;
+    },
+
+    API: (state, job) => {
+      state.job = job
     }
   },
 
   actions: {
-
+    loadData({commit, state}) {
+      axios.get(state.baseURL + state.jobNumber + '/' + state.opNumber).then((response) => {
+        commit('API', response.data.runchartFeatures)
+        console.log(state.job)
+        // commit('changeLoadingState', false)
+      })
+    }
   },
 
   modules: {

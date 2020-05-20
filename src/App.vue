@@ -35,6 +35,8 @@
   import Navigation from '@/app/shared/components/Navigation.vue'
   import { mapState, mapMutations } from 'vuex';
 
+  import axios from 'axios';
+
   export default {
     components: {
       Navigation,
@@ -42,6 +44,7 @@
     },
     data(){
       return {
+        job: '',
 
       }
     },
@@ -49,13 +52,27 @@
       //necessary values to manage which runchart we are looking at
       ...mapState([
             'componentKey',
-            'collapsedHeader'
+            'collapsedHeader',
+            
+            'baseURL',
+            'jobNumber',
+            'longJobNumber',
+            'opNumber',
           ]),
     },
     methods: {
       ...mapMutations([
         'UPDATE_KEY'
       ]),
+    },
+    mounted () {
+      // api call
+      axios.get( this.baseURL + this.jobNumber + '/' + this.opNumber ).then(response => {
+        // this.jobSpec = response.data
+        this.job = response.data.runchartFeatures
+        console.log(this.job)
+        this.slideNumbers = response.data.runchartFeatures.length
+      });
     }
   }
 </script>
