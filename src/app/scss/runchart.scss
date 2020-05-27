@@ -242,6 +242,27 @@
               .grid {
                 width: 100%;
                 position: relative;
+
+                .hidden-details {
+                  display: none;
+                  position: absolute;
+                  bottom: 0;
+                  right: 0;
+                  left: 0;
+                  font-size: 10px;
+                }
+
+                &.active {
+                  .hidden-details {
+                    display: block;
+                    z-index: 1;
+
+                    span {
+                      display: block;
+                    }
+                  }
+                }
+
                 .grid-date {
                   font-size: 18px;
                   color: #a90c21;
@@ -257,9 +278,6 @@
                 .fail {
                   width: 40px;
                   height: 40px;
-                }
-                .hidden-details {
-                  display: none;
                 }
                 &::after {
                   content: '';
